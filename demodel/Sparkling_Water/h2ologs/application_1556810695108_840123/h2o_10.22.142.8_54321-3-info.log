@@ -1,0 +1,192 @@
+06-20 19:22:51.132 10.22.142.8:54321     35528  Thread-7  INFO: Sparkling Water version: 2.4.9
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO: Spark version: 2.4.0
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO: Integrated H2O version: 3.24.0.1
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO: The following Spark configuration is used: 
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.driver.port,37882)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.eventLog.enabled,true)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.driver.extraLibraryPath,/usr/hdp/current/share/lzo/0.6.0/lib/native/Linux-amd64-64/)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.history.fs.cleaner.maxAge,7d)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.scheduler.minRegisteredResourcesRatio,1)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.ext.h2o.cluster.size,40)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.driver.appUIAddress,http://cerebro-clv-job-submitter1.snc1:4042)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.secondary.jars,com.databricks_spark-csv_2.11-1.5.0.jar,org.apache.commons_commons-csv-1.1.jar,com.univocity_univocity-parsers-1.5.1.jar)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.queue,clv)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.repl.local.jars,file:///home/pcourbois/.ivy2/jars/com.databricks_spark-csv_2.11-1.5.0.jar,file:///home/pcourbois/.ivy2/jars/org.apache.commons_commons-csv-1.1.jar,file:///home/pcourbois/.ivy2/jars/com.univocity_univocity-parsers-1.5.1.jar)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.ui.filters,org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.am.extraJavaOptions,-Dhdp.version=2.5.5.0-157 -XX:+UseConcMarkSweepGC)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.history.retainedApplications,5000)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.dist.jars,file:///home/pcourbois/.ivy2/jars/com.databricks_spark-csv_2.11-1.5.0.jar,file:///home/pcourbois/.ivy2/jars/org.apache.commons_commons-csv-1.1.jar,file:///home/pcourbois/.ivy2/jars/com.univocity_univocity-parsers-1.5.1.jar)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.ext.h2o.cloud.name,sparkling-water-pcourbois_application_1556810695108_840123)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.dist.pyFiles,file:///home/pcourbois/sparkling-water-2.4.9/py/build/dist/h2o_pysparkling_2.4-2.4.9.zip,file:///home/pcourbois/.ivy2/jars/com.databricks_spark-csv_2.11-1.5.0.jar,file:///home/pcourbois/.ivy2/jars/org.apache.commons_commons-csv-1.1.jar,file:///home/pcourbois/.ivy2/jars/com.univocity_univocity-parsers-1.5.1.jar)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.executor.id,driver)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.app.name,PySparkShell)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.sql.warehouse.dir,/user/hive/warehouse)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.sql.catalogImplementation,hive)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.locality.wait,30000)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.driver.host,cerebro-clv-job-submitter1.snc1)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.access.namenodes,hdfs://cerebro-namenode1.snc1:8033 ,hdfs://cerebro-namenode2.snc1:8033)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.dist.files,file:///home/pcourbois/spark/log4j.properties)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.dist.archives,hdfs://cerebro-namenode/user/grp_gdoop_admin/anaconda/anaconda3_env.zip#ANACONDA)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.port.maxRetries,100)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.history.ui.maxApplications,5000)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.dynamicAllocation.enabled,false)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.dynamicAllocation.maxExecutors,50)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.history.fs.logDirectory,hdfs://cerebro-namenode-vip.snc1:8020/spark_application_logs)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.ext.h2o.client.log.dir,/var/groupon/homedirs/pcourbois/Consumer-Intelligence/Models/Deact-Model/Sparkling_Water/h2ologs/application_1556810695108_840123)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.executorEnv.PYTHONPATH,/var/groupon/spark-2.4.0/python/lib/py4j-0.10.7-src.zip:/var/groupon/spark-2.4.0/python/:/home/pcourbois/sparkling-water-2.4.9/py/build/dist/h2o_pysparkling_2.4-2.4.9.zip:/var/groupon/spark-2.4.0/python/lib/py4j-0.10.7-src.zip/:<CPS>{{PWD}}/pyspark.zip<CPS>{{PWD}}/py4j-0.10.7-src.zip<CPS>{{PWD}}/h2o_pysparkling_2.4-2.4.9.zip<CPS>{{PWD}}/com.databricks_spark-csv_2.11-1.5.0.jar<CPS>{{PWD}}/org.apache.commons_commons-csv-1.1.jar<CPS>{{PWD}}/com.univocity_univocity-parsers-1.5.1.jar)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter.param.RM_HA_URLS,cerebro-resourcemanager1.snc1:8088,cerebro-resourcemanager2.snc1:8088)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.jars,hdfs://cerebro-namenode-vip.snc1:8020/frameworks/spark/spark-2.4.0/*)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.ext.h2o.client.ip,cerebro-clv-job-submitter1.snc1)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.history.fs.cleaner.interval,1h)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.executor.cores,4)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter.param.PROXY_HOSTS,cerebro-resourcemanager1.snc1,cerebro-resourcemanager2.snc1)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.driver.memory,8g)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.serializer.objectStreamReset,100)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.archive,hdfs://cerebro-namenode-vip.snc1:8020/frameworks/spark/spark-2.4.0-archives/spark-2.4.0-archive.zip)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.submit.deployMode,client)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.historyServer.address,cerebro-spark-history1.snc1:18080)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.executor.instances,40)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter.param.PROXY_URI_BASES,http://cerebro-resourcemanager1.snc1:8088/proxy/application_1556810695108_840123,http://cerebro-resourcemanager2.snc1:8088/proxy/application_1556810695108_840123)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.shuffle.service.enabled,true)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.submit.pyFiles,/home/pcourbois/sparkling-water-2.4.9/py/build/dist/h2o_pysparkling_2.4-2.4.9.zip,/home/pcourbois/.ivy2/jars/com.databricks_spark-csv_2.11-1.5.0.jar,/home/pcourbois/.ivy2/jars/org.apache.commons_commons-csv-1.1.jar,/home/pcourbois/.ivy2/jars/com.univocity_univocity-parsers-1.5.1.jar)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.executor.extraLibraryPath,/usr/hdp/current/hadoop-client/lib/native/:/usr/hdp/current/share/lzo/0.6.0/lib/native/Linux-amd64-64/)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.history.fs.cleaner.enabled,true)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.executor.memory,12g)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.executor.extraJavaOptions,-Dhdp.version=2.5.5.0-157 -XX:+UseConcMarkSweepGC)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.eventLog.dir,hdfs://cerebro-namenode-vip.snc1:8020/spark_application_logs)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.local.dir,/var/groupon/tmp)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.master,yarn)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.driver.extraJavaOptions,-Dhdp.version=2.5.5.0-157 -XX:+UseConcMarkSweepGC)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.rdd.compress,True)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.eventLog.compress,true)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.yarn.isPython,true)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.app.id,application_1556810695108_840123)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.ui.showConsoleProgress,true)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO:     (spark.driver.extraClassPath,/usr/hdp/current/share/lzo/0.6.0/lib/*)
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO: 
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO: Found XGBoost backend with library: xgboost4j_minimal
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO: Your system supports only minimal version of XGBoost (no GPUs, no multithreading)!
+06-20 19:22:51.141 10.22.142.8:54321     35528  Thread-7  INFO: ----- H2O started (client) -----
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Build git branch: rel-yates
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Build git hash: 373ca6b1bc7d194c6c70e1070f2f6f416f56b3d0
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Build git describe: jenkins-master-4622-14-g373ca6b
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Build project version: 3.24.0.1
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Build age: 2 months and 19 days
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Built by: 'jenkins'
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Built on: '2019-03-31 23:40:12'
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: HiveTableImporter Build git branch: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: HiveTableImporter Build git hash: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: HiveTableImporter Build git describe: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: HiveTableImporter Build project version: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: HiveTableImporter Built by: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: HiveTableImporter Built on: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: StackTraceCollector Build git branch: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: StackTraceCollector Build git hash: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: StackTraceCollector Build git describe: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: StackTraceCollector Build project version: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: StackTraceCollector Built by: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: StackTraceCollector Built on: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Watchdog Build git branch: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Watchdog Build git hash: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Watchdog Build git describe: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Watchdog Build project version: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Watchdog Built by: (unknown)
+06-20 19:22:51.142 10.22.142.8:54321     35528  Thread-7  INFO: Watchdog Built on: (unknown)
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: XGBoost Build git branch: (unknown)
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: XGBoost Build git hash: (unknown)
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: XGBoost Build git describe: (unknown)
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: XGBoost Build project version: (unknown)
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: XGBoost Built by: (unknown)
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: XGBoost Built on: (unknown)
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: Processed H2O arguments: [-name, sparkling-water-pcourbois_application_1556810695108_840123, -port_offset, 1, -nthreads, 4, -quiet, -log_level, INFO, -log_dir, /var/groupon/homedirs/pcourbois/Consumer-Intelligence/Models/Deact-Model/Sparkling_Water/h2ologs/application_1556810695108_840123, -baseport, 54321, -ip, cerebro-clv-job-submitter1.snc1, -client, -flatfile, /tmp/1561058570694-0/flatfile.txt]
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: Java availableProcessors: 40
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: Java heap totalMemory: 1.93 GB
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: Java heap maxMemory: 7.77 GB
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: Java version: Java 1.8.0_51 (from Oracle Corporation)
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: JVM launch parameters: [-Dhdp.version=2.5.5.0-157, -Xmx8g, -Dhdp.version=2.5.5.0-157, -XX:+UseConcMarkSweepGC]
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: OS version: Linux 2.6.32-504.el6.x86_64 (amd64)
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: Machine physical memory: 252.24 GB
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: X-h2o-cluster-id: 1561058557682
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: User name: 'pcourbois'
+06-20 19:22:51.143 10.22.142.8:54321     35528  Thread-7  INFO: IPv6 stack selected: false
+06-20 19:22:51.144 10.22.142.8:54321     35528  Thread-7  INFO: Possible IP Address: eth0 (eth0), 10.22.142.8
+06-20 19:22:51.144 10.22.142.8:54321     35528  Thread-7  INFO: Possible IP Address: lo (lo), 127.0.0.1
+06-20 19:22:51.144 10.22.142.8:54321     35528  Thread-7  INFO: New (possible) client found, timestamp=-29553
+06-20 19:22:51.156 10.22.142.8:54321     35528  Thread-7  INFO: H2O node running in unencrypted mode.
+06-20 19:22:51.157 10.22.142.8:54321     35528  Thread-7  INFO: Internal communication uses port: 54322
+06-20 19:22:51.157 10.22.142.8:54321     35528  Thread-7  INFO: Listening for HTTP and REST traffic on http://10.22.142.8:54321/
+06-20 19:22:51.160 10.22.142.8:54321     35528  Thread-7  INFO: H2O cloud name: 'sparkling-water-pcourbois_application_1556810695108_840123' on cerebro-clv-job-submitter1.snc1/10.22.142.8:54321, discovery address /234.91.216.146:59995
+06-20 19:22:51.160 10.22.142.8:54321     35528  Thread-7  INFO: If you have trouble connecting, try SSH tunneling from your local machine (e.g., via port 55555):
+06-20 19:22:51.160 10.22.142.8:54321     35528  Thread-7  INFO:   1. Open a terminal and run 'ssh -L 55555:localhost:54321 pcourbois@10.22.142.8'
+06-20 19:22:51.160 10.22.142.8:54321     35528  Thread-7  INFO:   2. Point your browser to http://localhost:55555
+06-20 19:22:51.374 10.22.142.8:54321     35528  Thread-7  INFO: Log dir: '/var/groupon/homedirs/pcourbois/Consumer-Intelligence/Models/Deact-Model/Sparkling_Water/h2ologs/application_1556810695108_840123'
+06-20 19:22:51.374 10.22.142.8:54321     35528  Thread-7  INFO: Cur dir: '/var/groupon/homedirs/pcourbois/Consumer-Intelligence/Models/Deact-Model/Sparkling_Water'
+06-20 19:22:51.387 10.22.142.8:54321     35528  Thread-7  INFO: Distributed HTTP import not available (import from HTTP/HTTPS will be eager)
+06-20 19:22:51.390 10.22.142.8:54321     35528  Thread-7  INFO: Using HDFS configuration from /etc/hadoop/conf
+06-20 19:22:51.390 10.22.142.8:54321     35528  Thread-7  INFO: HDFS subsystem successfully initialized
+06-20 19:22:51.397 10.22.142.8:54321     35528  Thread-7  INFO: S3 subsystem successfully initialized
+06-20 19:22:51.434 10.22.142.8:54321     35528  Thread-7  INFO: GCS subsystem successfully initialized
+06-20 19:22:51.434 10.22.142.8:54321     35528  Thread-7  INFO: Flow dir: '/home/pcourbois/h2oflows'
+06-20 19:22:51.496 10.22.142.8:54321     35528  Thread-7  INFO: Registered parsers: [GUESS, ARFF, XLS, SVMLight, AVRO, ORC, PARQUET, CSV]
+06-20 19:22:51.497 10.22.142.8:54321     35528  Thread-7  INFO: HiveTableImporter extension initialized
+06-20 19:22:51.497 10.22.142.8:54321     35528  Thread-7  INFO: StackTraceCollector extension initialized
+06-20 19:22:51.497 10.22.142.8:54321     35528  Thread-7  INFO: Watchdog extension initialized
+06-20 19:22:51.497 10.22.142.8:54321     35528  Thread-7  INFO: XGBoost extension initialized
+06-20 19:22:51.497 10.22.142.8:54321     35528  Thread-7  INFO: Registered 4 core extensions in: 245ms
+06-20 19:22:51.497 10.22.142.8:54321     35528  Thread-7  INFO: Registered H2O core extensions: [HiveTableImporter, StackTraceCollector, Watchdog, XGBoost]
+06-20 19:22:52.007 10.22.142.8:54321     35528  Thread-7  INFO: Registered: 174 REST APIs in: 509ms
+06-20 19:22:52.007 10.22.142.8:54321     35528  Thread-7  INFO: Registered REST API extensions: [XGBoost, Algos, Amazon S3, AutoML, Core V3, Core V4]
+06-20 19:22:52.147 10.22.142.8:54321     35528  Thread-7  INFO: Registered: 264 schemas in 140ms
+06-20 19:22:52.148 10.22.142.8:54321     35528  Thread-7  INFO: H2O started in 1452ms
+06-20 19:22:52.148 10.22.142.8:54321     35528  Thread-7  INFO: 
+06-20 19:22:52.148 10.22.142.8:54321     35528  Thread-7  INFO: Open H2O Flow in your web browser: http://10.22.142.8:54321
+06-20 19:22:52.148 10.22.142.8:54321     35528  Thread-7  INFO: 
+06-20 19:23:11.287 10.22.142.8:54321     35528  FJ-126-15 INFO: Cloud of size 40 formed [cerebro-worker158.snc1/10.24.122.13:54321, cerebro-worker242.snc1/10.24.109.14:54321, cerebro-worker221.snc1/10.24.108.16:54321, cerebro-worker195.snc1/10.24.122.17:54321, cerebro-worker155.snc1/10.24.120.19:54323, cerebro-worker390.snc1/10.24.131.19:54321, cerebro-worker310.snc1/10.24.128.21:54321, cerebro-worker250.snc1/10.24.121.23:54321, cerebro-worker315.snc1/10.24.128.30:54321, cerebro-worker318.snc1/10.24.137.32:54321, cerebro-worker229.snc1/10.24.111.33:54321, cerebro-worker178.snc1/10.24.121.36:54321, cerebro-worker430.snc1/10.24.157.39:54321, cerebro-worker438.snc1/10.24.76.42:54323, cerebro-worker340.snc1/10.24.43.43:54321, cerebro-worker295.snc1/10.24.159.43:54321, cerebro-worker295.snc1/10.24.159.43:54323, cerebro-worker420.snc1/10.24.76.44:54321, cerebro-worker350.snc1/10.24.43.47:54321, cerebro-worker365.snc1/10.24.77.49:54321, cerebro-worker294.snc1/10.24.33.51:54321, cerebro-worker214.snc1/10.24.121.55:54321, cerebro-worker215.snc1/10.24.109.57:54321, cerebro-worker232.snc1/10.24.121.57:54321, cerebro-worker349.snc1/10.24.61.58:54321, cerebro-worker206.snc1/10.24.109.58:54321, cerebro-worker101.snc1/10.24.115.67:54321, cerebro-worker7.snc1/10.24.117.71:54321, cerebro-worker93.snc1/10.24.113.74:54321, cerebro-worker456.snc1/10.24.91.83:54321, cerebro-worker454.snc1/10.24.77.121:54323, cerebro-worker127.snc1/10.24.117.170:54321, cerebro-worker452.snc1/10.24.43.172:54321, cerebro-worker482.snc1/10.24.111.184:54321, cerebro-worker451.snc1/10.24.85.191:54321, cerebro-worker63.snc1/10.24.113.201:54321, cerebro-worker455.snc1/10.24.107.238:54321, cerebro-worker81.snc1/10.24.118.242:54321, cerebro-worker5.snc1/10.24.106.248:54321, cerebro-worker462.snc1/10.24.110.253:54321]
+06-20 19:23:16.925 10.22.142.8:54321     35528  #0860-761 INFO: GET /3/Capabilities/API, parms: {}
+06-20 19:23:16.926 10.22.142.8:54321     35528  #0860-761 INFO: Locking cloud to new members, because water.api.schemas3.CapabilitiesV3
+06-20 19:23:33.524 10.22.142.8:54321     35528  #0860-762 INFO: GET /flow/index.html, parms: {}
+06-20 19:23:33.524 10.22.142.8:54321     35528  #0860-762 INFO: Trying to load resource /flow/index.html via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:33.525 10.22.142.8:54321     35528  #0860-762 INFO: Trying to load resource /flow/index.html via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:33.564 10.22.142.8:54321     35528  #0860-763 INFO: Trying to load resource /flow/css/flow.css via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:33.565 10.22.142.8:54321     35528  #0860-763 INFO: Trying to load resource /flow/css/flow.css via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:33.693 10.22.142.8:54321     35528  #0860-762 INFO: Trying to load resource /flow/js/flow.js via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:33.694 10.22.142.8:54321     35528  #0860-762 INFO: Trying to load resource /flow/js/flow.js via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:33.822 10.22.142.8:54321     35528  #0860-763 INFO: Trying to load resource /flow/img/h2o.png via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:33.823 10.22.142.8:54321     35528  #0860-763 INFO: Trying to load resource /flow/img/h2o.png via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:33.865 10.22.142.8:54321     35528  #0860-763 INFO: GET /flow/fonts/Lato-Regular.woff2, parms: {}
+06-20 19:23:33.865 10.22.142.8:54321     35528  #0860-763 INFO: Trying to load resource /flow/fonts/Lato-Regular.woff2 via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:33.866 10.22.142.8:54321     35528  #0860-763 INFO: Trying to load resource /flow/fonts/Lato-Regular.woff2 via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:33.896 10.22.142.8:54321     35528  #0860-764 INFO: GET /flow/fonts/fa-solid-900.woff2, parms: {}
+06-20 19:23:33.896 10.22.142.8:54321     35528  #0860-765 INFO: GET /flow/fonts/SourceCodePro-Regular.ttf.woff2, parms: {}
+06-20 19:23:33.896 10.22.142.8:54321     35528  #0860-764 INFO: Trying to load resource /flow/fonts/fa-solid-900.woff2 via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:33.896 10.22.142.8:54321     35528  #0860-765 INFO: Trying to load resource /flow/fonts/SourceCodePro-Regular.ttf.woff2 via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:33.898 10.22.142.8:54321     35528  #0860-765 INFO: Trying to load resource /flow/fonts/SourceCodePro-Regular.ttf.woff2 via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:33.898 10.22.142.8:54321     35528  #0860-764 INFO: Trying to load resource /flow/fonts/fa-solid-900.woff2 via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:34.462 10.22.142.8:54321     35528  #0860-762 INFO: GET /flow/index.html, parms: {}
+06-20 19:23:34.462 10.22.142.8:54321     35528  #0860-762 INFO: Trying to load resource /flow/index.html via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:34.463 10.22.142.8:54321     35528  #0860-762 INFO: Trying to load resource /flow/index.html via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:34.585 10.22.142.8:54321     35528  #0860-762 INFO: GET /3/Metadata/endpoints, parms: {}
+06-20 19:23:35.010 10.22.142.8:54321     35528  #0860-762 INFO: GET /3/NodePersistentStorage/notebook, parms: {}
+06-20 19:23:35.012 10.22.142.8:54321     35528  #0860-764 INFO: GET /3/NodePersistentStorage/categories/environment/names/clips/exists, parms: {}
+06-20 19:23:35.016 10.22.142.8:54321     35528  #0860-765 INFO: GET /flow/help/catalog.json, parms: {}
+06-20 19:23:35.016 10.22.142.8:54321     35528  #0860-763 INFO: GET /3/About, parms: {}
+06-20 19:23:35.016 10.22.142.8:54321     35528  #0860-765 INFO: Trying to load resource /flow/help/catalog.json via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:35.017 10.22.142.8:54321     35528  #0860-765 INFO: Trying to load resource /flow/help/catalog.json via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:35.046 10.22.142.8:54321     35528  #0860-759 INFO: POST /3/scalaint, parms: {}
+06-20 19:23:35.046 10.22.142.8:54321     35528  #0860-766 INFO: GET /3/ModelBuilders, parms: {}
+06-20 19:23:35.065 10.22.142.8:54321     35528  #0860-763 INFO: Trying to load resource /flow/img/h2o-flow.png via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:35.066 10.22.142.8:54321     35528  #0860-763 INFO: Trying to load resource /flow/img/h2o-flow.png via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:35.130 10.22.142.8:54321     35528  #0860-763 INFO: GET /flow/fonts/fa-regular-400.woff2, parms: {}
+06-20 19:23:35.130 10.22.142.8:54321     35528  #0860-763 INFO: Trying to load resource /flow/fonts/fa-regular-400.woff2 via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:35.131 10.22.142.8:54321     35528  #0860-763 INFO: Trying to load resource /flow/fonts/fa-regular-400.woff2 via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:23:35.142 10.22.142.8:54321     35528  #0860-759 INFO: GET /flow/fonts/Lato-Italic.woff2, parms: {}
+06-20 19:23:35.142 10.22.142.8:54321     35528  #0860-759 INFO: Trying to load resource /flow/fonts/Lato-Italic.woff2 via classloader sun.misc.Launcher$AppClassLoader@6b884d57
+06-20 19:23:35.143 10.22.142.8:54321     35528  #0860-759 INFO: Trying to load resource /flow/fonts/Lato-Italic.woff2 via classloader org.apache.spark.util.MutableURLClassLoader@3e9803c2
+06-20 19:31:00.716 10.22.142.8:54321     35528  #0860-761 INFO: GET /3/Frames/train/light, parms: {column_offset=0, full_column_count=-1, row_count=10, row_offset=0, column_count=-1}
+06-20 19:34:10.182 10.22.142.8:54321     35528  #0860-765 INFO: GET /3/Frames/test/light, parms: {column_offset=0, full_column_count=-1, row_count=10, row_offset=0, column_count=-1}
+06-20 19:36:53.902 10.22.142.8:54321     35528  #0860-764 INFO: GET /3/Frames/train, parms: {row_count=10}
+06-20 19:37:11.464 10.22.142.8:54321     35528  #0860-765 INFO: POST /4/sessions, parms: {}
+06-20 19:37:11.483 10.22.142.8:54321     35528  #0860-762 INFO: POST /99/Rapids, parms: {ast=(tmp= py_1_sid_a2e7 (:= train (as.factor (cols_py train 'deactivated')) 46 [])), session_id=_sid_a2e7}
+06-20 19:37:19.372 10.22.142.8:54321     35528  #0860-766 INFO: POST /99/Rapids, parms: {ast=(tmp= py_2_sid_a2e7 (:= test (as.factor (cols_py test 'deactivated')) 46 [])), session_id=_sid_a2e7}
+06-20 19:37:22.442 10.22.142.8:54321     35528  #0860-759 INFO: POST /99/Grid/drf, parms: {model_id=RF_grid, stopping_tolerance=0.02, validation_frame=py_2_sid_a2e7, col_sample_rate_per_tree=0.66, response_column=deactivated, training_frame=py_1_sid_a2e7, seed=28372, grid_id=rf_grid, score_tree_interval=25, hyper_parameters={'max_depth': [6, 10, 20, 30]}, search_criteria={'max_models': 4, 'seed': 3923, 'strategy': 'RandomDiscrete'}, ntrees=300, sample_rate=0.5, stopping_metric=auc, min_rows=1000}
+06-20 19:37:22.537 10.22.142.8:54321     35528  #0860-759 INFO: Starting gridsearch: estimated size of search space = 4

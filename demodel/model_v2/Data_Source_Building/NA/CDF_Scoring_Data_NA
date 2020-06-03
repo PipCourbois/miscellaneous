@@ -1,0 +1,466 @@
+--sqlread
+select  current_date-7 as scoringsevendaysago
+--sqlread2
+select current_date-1 as scoringdateparam
+--stage1_consumer_lt_orders_scoring
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_consumer_lt_orders_scoring  
+	partition(record_date = '${scoringdateparam}')
+	select 
+	  consumer_id
+	  , min(order_date) as first_purchase_date
+, datediff('${scoringdateparam}',min(order_date)) as tenure_days --new
+	from 
+	(
+	select 
+	    consumer_id
+	 ,  order_date
+	from grp_gdoop_marketing_analytics_db.me_orders_fgt_usd
+	where platform_key = 1
+	and user_brand_affiliation in ('groupon')
+	and country_id in ('235','40')
+	and action = 'authorize' 
+	and txn_amount_loc <> 0
+	and attribution_type = '3.1'  
+	and order_date <= '${scoringdateparam}'
+	) x
+	
+	
+	group by consumer_id;analyze table grp_gdoop_clv_db.cdf_consumer_lt_orders_scoring partition(record_date = '${scoringdateparam}')  compute statistics;alter table grp_gdoop_clv_db.cdf_consumer_lt_orders_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
+--stage1_temp_scoring
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_temp_scoring
+	partition (record_date = '${scoringdateparam}')
+	select 
+	         consumer_id
+	        ,max(transaction_date) as most_recent_order_date
+	        ,max(case when order_rank = 1 then is_activation else 0 end) as is_activation 
+	        ,max(case when order_rank = 1 then is_reactivation else 0 end) as is_reactivation
+	        ,max(case when order_rank = 1 then order_id end) as most_recent_order_id
+	        ,max(case when order_rank = 1 then nob end) as most_recent_order_price
+	        ,max(case when order_rank = 1 then deal_permalink end) as most_recent_deal
+	        ,max(case when order_rank = 1 then grt_l1_cat_name end) as most_recent_l1
+	        ,max(case when order_rank = 1 then grt_l2_cat_name end) as most_recent_l2
+	        ,max(case when order_rank = 1 then traffic_type end) as most_recent_traffic_type
+	        ,max(case when order_rank = 1 then traffic_source end) as most_recent_traffic_source
+
+	        ,max(case when order_rank = 1 then platform end) as most_recent_platform
+
+	        ,max(case when order_rank = 1 then promo_type end) as most_recent_promo_type
+
+	        ,count(*) as frequency_T24m
+	        ,sum(units) as units_T24m
+	        ,sum(nob) as nob_T24m
+	        ,sum(nor) as nor_T24m
+	        ,sum(gp) as gp_T24m
+	        ,sum(discount_amount) as OD_T24m
+	        ,sum(ils_discount) as ILS_T24m
+	        ,sum(wow_subsidy_amount) as wow_T24m
+
+	        ,sum(d365) as frequency_T12M
+	        ,coalesce(sum(d365*units),0) as units_T12m
+	        ,coalesce(sum(d365*nob),0) as nob_T12m
+	        ,coalesce(sum(d365*nor),0) as nor_T12m
+	        ,coalesce(sum(d365*gp),0) as gp_T12m
+	        ,coalesce(sum(d365*discount_amount),0) as OD_T12m
+	        ,coalesce(sum(d365*ils_discount),0) as ILS_T12m
+	        ,coalesce(sum(d365*wow_subsidy_amount),0) as wow_T12m
+
+	        ,sum(case when grt_l1_cat_name = 'L1 - Local' then 1 else 0 end) as local_orders_T24m
+	        ,sum(case when grt_l1_cat_name = 'L1 - Shopping' then 1 else 0 end) as shopping_orders_T24m
+	        ,sum(case when grt_l1_cat_name = 'L1 - Travel' then 1 else 0 end) as travel_orders_T24m
+
+	        ,sum(case when platform = 'app' then 1 else 0 end) as app_orders_T24m
+	        ,sum(case when platform = 'touch' then 1 else 0 end) as touch_orders_T24m
+	        ,sum(case when platform = 'web' then 1 else 0 end) as web_orders_T24m
+
+	        ,sum(case when traffic_type = 'Paid' then 1 else 0 end) as paid_orders_T24m
+	        ,sum(case when traffic_type = 'Free' then 1 else 0 end) as free_orders_T24m
+	        ,sum(case when traffic_type = 'Managed' then 1 else 0 end) as managed_orders_T24m
+
+	        ,count(distinct concat(order_quarter,order_year)) as unique_purchase_quarters
+,datediff('${scoringdateparam}',max(transaction_date)) as recency--new
+	        ,date_add(max(transaction_date),365) as deact_date --new
+	from
+	(
+
+	        select 
+	                   me.consumer_id
+	                  ,me.transaction_date
+	                  ,me.order_uuid
+	                  ,me.order_timestamp
+	                  ,me.order_id
+	                  ,is_activation 
+	                  ,is_reactivation
+
+	                  ,me.deal_permalink
+	                  ,me.grt_l1_cat_name
+	                  ,me.grt_l2_cat_name
+
+	                  ,me.traffic_type
+	                  ,me.traffic_source
+	                  ,me.traffic_sub_source
+
+	                  ,me.platform
+	                  ,me.subplatform
+
+	                  ,me.units
+	                  ,me.auth_nob_loc as nob
+	                  ,me.auth_nor_loc as nor
+	                  ,me.auth_gp_loc as gp
+
+	                  ,im.promo_type
+	                  ,im.order_discount_type
+
+	                  ,im.ils_campaign_name
+	                  ,im.od_promotion_code  ,im.od_target_channel
+	                  ,im.wow_merchant,im.wow_account_name
+
+	                  , -me.discount_amount_loc as discount_amount
+	                  ,me.ils_discount_loc as ils_discount
+	                  ,coalesce(im.wow_discount,0) as wow_subsidy_amount
+
+	                  -- ignored for now: ,case when action = 'refund' then 1 else 0 end as refund_flag
+
+	                  ,row_number() over (partition by me.consumer_id order by me.order_timestamp desc) as order_rank
+	                  ,case 
+	                           when me.transaction_date >= add_months('${scoringdateparam}',-12) then 1 else 0 
+	                           end as d365
+	                  ,case 
+	                           when month(me.transaction_date) in (1,2,3) then 'Q1' 
+	                           when month(me.transaction_date) in (4,5,6) then 'Q2'
+	                           when month(me.transaction_date) in (7,8,9) then 'Q3' 
+	                           else 'Q4' 
+	                           end as order_quarter
+	                  ,year(me.transaction_date) as order_year
+	        
+	        from  grp_gdoop_marketing_analytics_db.me_orders_fgt_usd me
+
+	        left outer join grp_gdoop_revenue_management_db.src_incentive_metrics im
+	             on  me.order_id = im.order_id
+
+	        WHERE platform_key = 1
+	        and user_brand_affiliation in ('groupon')
+	        and me.country_id in ('235','40')
+	        and action = 'authorize' -- ignore returns: = 'authorize'  include returns: <> 'capture'
+	        and txn_amount_loc <> 0
+	        and attribution_type = '3.1'  -- 3.1 is active from 2015-04-01 forward
+	        and me.transaction_date >= add_months('${scoringdateparam}',-24)
+	        and me.transaction_date <= '${scoringdateparam}'
+
+	        DISTRIBUTE BY consumer_id SORT BY consumer_id, transaction_date
+	) logs
+	group by consumer_id
+
+	DISTRIBUTE BY consumer_id SORT BY consumer_id;analyze table grp_gdoop_clv_db.cdf_temp_scoring partition(record_date = '${scoringdateparam}') compute statistics;alter table grp_gdoop_clv_db.cdf_temp_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
+--stage1_engagement_temp_scoring
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_engagement_temp_scoring 
+	partition (record_date = '${scoringdateparam}')
+
+	select 
+		cookie_b
+		 ,max(event_date) as event_date
+		 ,count(distinct event_date) as visit_freq_90d
+		 ,count(distinct case when event_date >= date_sub('${scoringdateparam}',7) then event_date end) as visit_freq_7d
+		 ,count(distinct case when event_date >= date_sub('${scoringdateparam}',14) then event_date end) visit_freq_14d
+		 ,count(distinct case when event_date >= date_sub('${scoringdateparam}',28) then event_date end) visit_freq_28d
+
+		 ,sum(available_deal_views) as available_deal_views_90d
+
+		 ,count(distinct case when cookie_first_platform = 'App' then event_date end) as AppFrequency
+		,count(distinct case when cookie_first_platform = 'Web' then event_date end) as WebFrequency
+		,count(distinct case when cookie_first_platform = 'Touch' then event_date end) as TouchFrequency
+
+	  from user_groupondw.gbl_traffic_superfunnel
+
+	  where event_date >= add_months('${scoringdateparam}', -3) 
+		and event_date <= '${scoringdateparam}'
+	  and cookie_first_country_code = 'US'
+	  group by cookie_b;analyze table grp_gdoop_clv_db.cdf_engagement_temp_scoring partition(record_date = '${scoringdateparam}') compute statistics;alter table grp_gdoop_clv_db.cdf_engagement_temp_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
+--stage1_train_pop_scoring
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_train_pop_scoring 
+		partition (record_date = '${scoringdateparam}')
+			select 
+					user_brand_affiliation brand
+,user_uuid as consumer_id
+				, recency_segment 
+				,	frequency_segment
+				,	recency_9block
+				,	frequency_9block
+			from user_groupondw.agg_user_ord_seg_day_na
+			where '${scoringdateparam}'  between valid_date_start and valid_date_end
+			  and user_uuid is not null and user_brand_affiliation = 'groupon'
+			  and recency_9block IN ( '3-Low Rec (121-365 Days)', 
+                                        '2-Med Rec (31-120 Days)', 
+                                        '1-High Rec (0-30 Days)' ) 
+
+		DISTRIBUTE BY consumer_id SORT BY consumer_id;ANALYZE TABLE grp_gdoop_clv_db.cdf_train_pop_scoring  partition(record_date = '${scoringdateparam}') compute statistics;ALTER TABLE grp_gdoop_clv_db.cdf_train_pop_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
+--stage2_cookie_map1_scoring
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_cookie_map1_scoring 
+		partition (record_date = '${scoringdateparam}')
+
+		SELECT 
+			p.consumer_id
+			,m.bcookie
+			, max(m.event_date) as last_cookie_date
+		FROM 
+		(
+		    select 
+		        *
+		    from  grp_gdoop_clv_db.cdf_train_pop_scoring
+		    where record_date = '${scoringdateparam}'
+		) p
+
+		JOIN user_groupondw.user_bcookie_mapping m
+		on p.consumer_id = m.user_uuid
+		and m.country_code = 'US'
+		and m.event_date >= add_months('${scoringdateparam}', -3) 
+		and m.event_date <= '${scoringdateparam}'
+		group by p.consumer_id, m.bcookie;analyze table grp_gdoop_clv_db.cdf_cookie_map1_scoring partition(record_date = '${scoringdateparam}') compute statistics;alter table grp_gdoop_clv_db.cdf_cookie_map1_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
+--stage2_cookie_map2_scoring
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_cookie_map2_scoring 
+	partition (record_date = '${scoringdateparam}')
+	SELECT 
+		p.consumer_id
+		,ords.bcookie
+		, max(ords.transaction_date) as last_cookie_date
+	FROM 
+	(
+	    select 
+	        *
+	    from grp_gdoop_clv_db.cdf_train_pop_scoring
+	    where record_date = '${scoringdateparam}'
+	) p
+
+	JOIN grp_gdoop_marketing_analytics_db.me_orders_fgt_usd ords
+	  on p.consumer_id = ords.consumer_id
+	      and transaction_date <= '${scoringdateparam}'
+	      and transaction_date >= add_months('${scoringdateparam}',-24)
+	      and country_id in (40,235)
+	      and platform_key = 1
+	      and attribution_type = '3.1'
+
+	group by p.consumer_id,ords.bcookie;analyze table grp_gdoop_clv_db.cdf_cookie_map2_scoring partition(record_date = '${scoringdateparam}')  compute statistics;alter table grp_gdoop_clv_db.cdf_cookie_map2_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
+--stage2_email_metrics_scoring
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_email_metrics_scoring 
+partition (record_date = '${scoringdateparam}')
+
+Select
+        pop.consumer_id
+	,min(datediff('${scoringdateparam}',send_date)) as send_recency
+	,count(distinct case when send_date >= date_sub('${scoringdateparam}',7) then send_id end) as sends_7d
+	,count(distinct case when send_date >= date_sub('${scoringdateparam}',30) then send_id end) as sends_30d
+
+	,min(case when d3_open_cnt >= 1 then datediff('${scoringdateparam}',send_date) end) as open_recency
+	,max(case when d3_open_cnt >= 1 then send_date end) as most_recent_open_date 
+        ,sum(case when send_date >= date_sub('${scoringdateparam}',7) and d3_open_cnt >= 1 then 1 else 0 end) as uniq_3day_opens_7d
+        ,sum(case when send_date >= date_sub('${scoringdateparam}',30) and d3_open_cnt >= 1 then 1 else 0 end) as uniq_3day_opens_30d
+
+       ,min(case when d3_click_cnt >= 1 then datediff('${scoringdateparam}',send_date) end) as click_recency
+	,sum(case when send_date >= date_sub('${scoringdateparam}',7) and d3_click_cnt >= 1 then 1 else 0 end) as uniq_3day_clicks_7d
+	,sum(case when send_date >= date_sub('${scoringdateparam}',30) and d3_click_cnt >= 1 then 1 else 0 end) as uniq_3day_clicks_30d
+
+        , sum(case when d3_unsub_cnt >= 1 then 1 else 0 end) as unsubscription_30d
+,max(send_date) as last_send_date --new
+from  user_groupondw.agg_email hist
+
+join  
+(
+select * from grp_gdoop_clv_db.cdf_train_pop_scoring where record_date = '${scoringdateparam}') pop
+        on hist.user_uuid = pop.consumer_id
+
+where country_code in ('US','CA')
+and send_date between date_sub('${scoringdateparam}',30) and '${scoringdateparam}'
+and business_group not in ('transactional')
+
+group by  pop.consumer_id;analyze table grp_gdoop_clv_db.cdf_email_metrics_scoring partition (record_date = '${scoringdateparam}') compute statistics;alter table grp_gdoop_clv_db.cdf_email_metrics_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
+--stage3_cookie_map_scoring
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_cookie_map_scoring 
+partition (record_date = '${scoringdateparam}')
+select 
+	consumer_id
+	, bcookie
+	, max(last_cookie_date) as last_cookie_date
+from
+(
+	select 
+		consumer_id
+		, bcookie
+		, last_cookie_date
+	from grp_gdoop_clv_db.cdf_cookie_map1_scoring
+	where record_date = '${scoringdateparam}'
+	union all
+	select 
+		consumer_id
+		, bcookie
+		, last_cookie_date
+	from grp_gdoop_clv_db.cdf_cookie_map2_scoring
+	where record_date = '${scoringdateparam}'
+) a
+group by consumer_id, bcookie;analyze table grp_gdoop_clv_db.cdf_cookie_map_scoring partition(record_date = '${scoringdateparam}') compute statistics;alter table grp_gdoop_clv_db.cdf_cookie_map_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
+
+--stage4_engagement_feature_scoring
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_engagement_features_scoring 
+	partition(record_date = '${scoringdateparam}')
+
+
+	select 
+		p.consumer_id
+		,min(datediff('${scoringdateparam}',event_date)) as visit_recency
+		,sum(visit_freq_90d) as visit_freq_90d
+		,sum(visit_freq_7d) as visit_freq_7d, sum(visit_freq_14d) as visit_freq_14d, sum(visit_freq_28d) as visit_freq_28d
+		,sum(available_deal_views_90d) as available_deal_views_90d
+
+		,sum(AppFrequency) as AppFrequency
+		,sum(WebFrequency) as WebFrequency
+		,sum(TouchFrequency) as TouchFrequency
+
+		,count(distinct bcookie) as bcookies
+,max(event_date) as last_visit_date
+	from 
+	(
+	select * from grp_gdoop_clv_db.cdf_cookie_map_scoring where record_date = '${scoringdateparam}' ) p
+	join 
+	(
+	select * from grp_gdoop_clv_db.cdf_engagement_temp_scoring where record_date = '${scoringdateparam}' ) sf
+	on p.bcookie = sf.cookie_b and p.record_date = sf.record_date
+group by p.consumer_id;analyze table grp_gdoop_clv_db.cdf_engagement_features_scoring partition(record_date = '${scoringdateparam}') compute statistics;alter table grp_gdoop_clv_db.cdf_engagement_features_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
+--stage5_all_features_scoring
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_all_features_scoring 
+		partition(record_date = '${scoringdateparam}')
+		select
+		    pop.brand
+		    , pop.consumer_id
+		    , case when rand() < 0.66 then 'training' else 'validation' end as data_set
+		    , recency_segment
+    		, frequency_segment
+    		, recency_9block
+    		, frequency_9block
+		    ,t.deact_date --new
+		    , lt.tenure_days --new
+		    , t.recency --new
+		    , t.most_recent_order_date --NEW
+		    , coalesce(t.frequency_T24m,0) as frequency_T24m
+		    , coalesce(t.nob_T24m,0) as nob_T24m
+		    , coalesce(t.gp_T24m,0) as gp_T24m
+		    , coalesce(t.frequency_T12M,0) as frequency_T12M
+		    , coalesce(t.nob_T12m,0) as nob_T12m
+		    , coalesce(t.gp_T12m,0) as gp_T12m
+		    , coalesce(t.local_orders_T24m,0) as local_orders_T24m
+		    , coalesce(t.shopping_orders_T24m,0) as shopping_orders_T24m
+		    , coalesce(t.travel_orders_T24m,0) as travel_orders_T24m
+		    , coalesce(t.app_orders_T24m,0) as app_orders_T24m
+		    , coalesce(t.touch_orders_T24m,0) as touch_orders_T24m
+		    , coalesce(t.web_orders_T24m,0) as web_orders_T24m
+		    , t.most_recent_l1
+		    , t.most_recent_l2
+		    , t.most_recent_promo_type
+		    , most_recent_platform
+		    , is_activation
+		    , is_reactivation
+		    , unique_purchase_quarters as unique_purchase_quarters_T24m
+		    , ef.last_visit_date
+		    , ef.visit_recency
+		    , coalesce(ef.visit_freq_90d,0) as visit_freq_90d
+		    , coalesce(ef.visit_freq_7d,0) as visit_freq_7d
+		    , coalesce(ef.visit_freq_14d,0) as visit_freq_14d
+		    , coalesce(ef.visit_freq_28d,0) as visit_freq_28d
+		    , coalesce(ef.available_deal_views_90d,0) as available_deal_views_90d
+		    , coalesce(ef.AppFrequency,0) as AppFrequency
+		    , coalesce(ef.WebFrequency,0) as WebFrequency
+		    , coalesce(ef.TouchFrequency,0) as TouchFrequency
+		    , ef.bcookies
+		    , email.send_recency as send_recency
+		    , coalesce(email.sends_7d,0) as sends_7d
+		    , coalesce(email.sends_30d,0) as sends_30d
+		    , email.open_recency
+		    , email.most_recent_open_date --new field
+		    , coalesce(email.uniq_3day_opens_7d,0) as uniq_3day_opens_7d
+		    , coalesce(email.uniq_3day_opens_30d,0) as uniq_3day_opens_30d
+		    , email.click_recency
+		    , coalesce(email.uniq_3day_clicks_7d,0) as uniq_3day_clicks_7d
+		    , coalesce(email.uniq_3day_clicks_30d,0) as uniq_3day_clicks_30d
+		    , coalesce(email.unsubscription_30d,0) as unsubscription_30d
+		    , email.last_send_date as last_send_date --new
+		from 
+		(
+		    select *, record_date as scoring_date from grp_gdoop_clv_db.cdf_train_pop_scoring where record_date = '${scoringdateparam}') pop
+
+		left outer join 
+		(
+		select * from grp_gdoop_clv_db.cdf_temp_scoring where record_date = '${scoringdateparam}') t
+		  on pop.consumer_id = t.consumer_id
+
+		left outer join 
+		(select * from grp_gdoop_clv_db.cdf_engagement_features_scoring where record_date = '${scoringdateparam}') ef
+		  on pop.consumer_id = ef.consumer_id
+		  
+		left outer join 
+		(select * from grp_gdoop_clv_db.cdf_consumer_lt_orders_scoring where record_date = '${scoringdateparam}') lt
+		  on pop.consumer_id = lt.consumer_id
+		  
+		left outer join 
+		( select * from grp_gdoop_clv_db.cdf_email_metrics_scoring where record_date = '${scoringdateparam}') email
+		  on pop.consumer_id = email.consumer_id
+
+		DISTRIBUTE BY consumer_id SORT BY consumer_id;analyze table grp_gdoop_clv_db.cdf_all_features_scoring partition (record_date = '${scoringdateparam}') compute statistics;alter table grp_gdoop_clv_db.cdf_all_features_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
+--stage6_data_transformations
+set hive.exec.copyfile.maxsize=7516192768;insert overwrite table grp_gdoop_clv_db.cdf_final_scoring
+partition(record_date = '${scoringdateparam}')
+
+select
+brand
+,consumer_id
+,data_set
+,recency_segment
+,frequency_segment
+,recency_9block
+,frequency_9block
+,deact_date
+,case when round(tenure_days/30) >26 then 26 when tenure_days is null then 26 else round(tenure_days/30) end as tenure_days
+,case when recency >365 then 365 else recency end as recency
+, most_recent_order_date
+,case when frequency_t24m >46 then 46 else frequency_t24m end as frequency_t24m
+,case when nob_t24m >2000 then 2000 else nob_t24m end as nob_t24m
+,case when gp_t24m < -10.0 then -10.0 when gp_t24m > 400.00 then 400.00 else gp_t24m end as gp_t24m
+,case when frequency_t12m >30 then 30 else frequency_t12m end as frequency_t12m
+,case when nob_t12m >1100 then 1100 else nob_t12m end as nob_t12m
+,case when gp_t12m < -10.0 then -10.0 when gp_t12m > 400.00 then 400.00 else gp_t12m end as gp_t12m
+,case when local_orders_t24m >31 then 31 else local_orders_t24m end as local_orders_t24m
+,case when shopping_orders_t24m >31 then 31 else shopping_orders_t24m end as shopping_orders_t24m
+,case when travel_orders_t24m >31 then 31 else travel_orders_t24m end as travel_orders_t24m
+,case when app_orders_t24m >31 then 31 else app_orders_t24m end as app_orders_t24m
+,case when touch_orders_t24m >31 then 31 else touch_orders_t24m end as touch_orders_t24m
+,case when web_orders_t24m >31 then 31 else web_orders_t24m end as web_orders_t24m
+,case when most_recent_l1='unknown' then 'Local' when most_recent_l1='multi' then 'Local' else most_recent_l1 end as most_recent_l1
+,case when most_recent_l2='L2 - Charity' then 'other' when most_recent_l2='multi' then 'other' when most_recent_l2='unknown' then 'other' else most_recent_l2 end as most_recent_l2
+,case when most_recent_promo_type='OD & WOW' then 'OD' when most_recent_promo_type='ILS+OD' then 'OD' when most_recent_promo_type is null then 'organic' else most_recent_promo_type end as most_recent_promo_type
+,most_recent_platform
+,is_activation
+,is_reactivation
+,unique_purchase_quarters_t24m
+,last_visit_date
+,case when visit_recency >92 then 92  else coalesce(visit_recency,100) end as visit_recency
+,case when visit_freq_90d >90 then 90 else visit_freq_90d end as visit_freq_90d
+,case when visit_freq_7d >8 then 8 else visit_freq_7d end as visit_freq_7d
+,case when visit_freq_14d >14 then 14 else visit_freq_14d end as visit_freq_14d
+,case when visit_freq_28d >28 then 28 else visit_freq_28d end as visit_freq_28d
+,case when available_deal_views_90d >220 then 220 else available_deal_views_90d end as available_deal_views_90d
+,case when appfrequency >90 then 90 else appfrequency end as appfrequency
+,case when webfrequency >90 then 90 else webfrequency end as webfrequency
+,case when touchfrequency >90 then 90 else touchfrequency end as touchfrequency
+,case when bcookies >15 then 15 else coalesce(bcookies,0) end as bcookies
+,case when coalesce(send_recency,0) >0 then 1 else 0 end as send_recency
+,case when sends_7d >45 then 45 else sends_7d end as sends_7d
+,case when sends_30d >175 then 175 else sends_30d end as sends_30d
+,case when coalesce(open_recency,0) >0 then 1 else 0 end as open_recency
+, most_recent_open_date
+,case when uniq_3day_opens_7d >36 then 36 else uniq_3day_opens_7d end as uniq_3day_opens_7d
+,case when uniq_3day_opens_30d >120 then 120 else uniq_3day_opens_30d end as uniq_3day_opens_30d
+,case when coalesce(click_recency,0) >0 then 1 else 0 end as click_recency
+,case when uniq_3day_clicks_7d >7 then 7 else uniq_3day_clicks_7d end as uniq_3day_clicks_7d
+,case when uniq_3day_clicks_30d >30 then 30 else uniq_3day_clicks_30d end as uniq_3day_clicks_30d
+,case when coalesce(unsubscription_30d,0) >0 then 1 else 0 end as unsubscription_30d
+,last_send_date --new
+  from grp_gdoop_clv_db.cdf_all_features_scoring
+where record_date = '${scoringdateparam}'
+
+DISTRIBUTE BY consumer_id SORT BY consumer_id;analyze table grp_gdoop_clv_db.cdf_final_scoring partition (record_date = '${scoringdateparam}') compute statistics;alter table grp_gdoop_clv_db.cdf_final_scoring DROP IF EXISTS PARTITION(record_date <= '${scoringsevendaysago}') purge
