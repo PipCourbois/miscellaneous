@@ -1,0 +1,9 @@
+ARG BASE_CONTAINER=jupyter/tensorflow-notebook
+FROM $BASE_CONTAINER
+
+# Install LP functions from PuLP
+RUN pip install --quiet --no-cache-dir \
+    'pulp' && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+
