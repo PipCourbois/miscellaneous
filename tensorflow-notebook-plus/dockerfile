@@ -3,7 +3,8 @@ FROM $BASE_CONTAINER
 
 # Install LP functions from PuLP
 RUN pip install --quiet --no-cache-dir \
-    'pulp' && \
+    'pulp'  \
+    'folium' && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
